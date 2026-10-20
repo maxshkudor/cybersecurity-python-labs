@@ -6,7 +6,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-
+from typing import ClassVar
 
 PASSWORD_ITERATIONS = 310_000
 SESSION_TIMEOUT_SEC = 900
@@ -130,12 +130,8 @@ class Session:
     """Сесія користувача з часом у часовому поясі UTC."""
 
     ip: str
-    login_time: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
-    last_activity: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    login_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    last_activity: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def touch(self) -> None:
         """Оновлює час останньої активності."""
@@ -177,17 +173,14 @@ class AuditLog:
     def show_all(self) -> list[AuditRecord]:
         """Виводить усі записи та повертає їх списком."""
         for record in self.records:
-            print(
-                f"{record.timestamp.isoformat()} "
-                f"{record.username}: {record.action}"
-            )
+            print(f"{record.timestamp.isoformat()} {record.username}: {record.action}")
         return list(self.records)
 
 
 class UserAccount:
     """Обліковий запис, що поєднує користувача, сесію та аудит."""
 
-    ALLOWED_KEYS = {"user", "session", "audit_log"}
+    ALLOWED_KEYS: ClassVar[frozenset[str]] = frozenset({"user", "session", "audit_log"})
 
     def __init__(
         self,
@@ -224,10 +217,7 @@ class UserAccount:
 
     def is_authenticated(self) -> bool:
         """Повертає True, якщо сесія існує та ще активна."""
-        return (
-            self.session is not None
-            and self.session.is_active(SESSION_TIMEOUT_SEC)
-        )
+        return self.session is not None and self.session.is_active(SESSION_TIMEOUT_SEC)
 
     def logout(self) -> None:
         """Завершує активну сесію та записує вихід до аудиту."""

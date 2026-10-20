@@ -83,7 +83,7 @@ def read_users_db() -> list:
     """Зчитує вміст CSV-файлу у список кортежів (login, hash)."""
     users_db = []
     try:
-        with open(USERS_CSV_PATH, mode="r", newline="", encoding="utf-8") as csv_file:
+        with open(USERS_CSV_PATH, newline="", encoding="utf-8") as csv_file:
             reader = csv.reader(csv_file)
             for row in reader:
                 if row:
@@ -135,7 +135,7 @@ def log_event(func):
         events = []
         try:
             if os.path.exists(LOG_JSON_PATH):
-                with open(LOG_JSON_PATH, "r", encoding="utf-8") as log_file:
+                with open(LOG_JSON_PATH, encoding="utf-8") as log_file:
                     events = json.load(log_file)
         except (json.JSONDecodeError, IOError):  # noqa: UP024
             events = []

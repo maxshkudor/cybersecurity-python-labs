@@ -122,7 +122,9 @@ def print_report(all_passwords: list, results: list) -> None:
     print("\n" + "-" * 60)
     print(f"{'№':<4}{'Пароль':<25}{'Оцінка надійності':<25}")
     print("-" * 60)
-    for i, (password, verdict) in enumerate(zip(all_passwords, results), start=1):
+    for i, (password, verdict) in enumerate(
+        zip(all_passwords, results, strict=True), start=1
+    ):
         print(f"{i:<4}{password:<25}{verdict:<25}")
     print("-" * 60)
 

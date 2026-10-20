@@ -6,9 +6,8 @@ import logging
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -41,7 +40,7 @@ def load_certificates(file_path: Path) -> list[dict]:
         raise ValueError(f"Некоректний JSON у файлі: {file_path}") from error
 
     if not isinstance(data, list):
-        raise ValueError("JSON має містити список сертифікатів.")
+        raise TypeError("JSON має містити список сертифікатів.")
 
     required_fields = {
         "domain",
@@ -54,14 +53,12 @@ def load_certificates(file_path: Path) -> list[dict]:
 
     for number, certificate in enumerate(data, start=1):
         if not isinstance(certificate, dict):
-            raise ValueError(f"Запис сертифіката №{number} має бути об'єктом.")
+            raise TypeError(f"Запис сертифіката №{number} має бути об'єктом.")
 
         missing_fields = required_fields - certificate.keys()
         if missing_fields:
             missing = ", ".join(sorted(missing_fields))
-            raise ValueError(
-                f"У сертифікаті №{number} відсутні поля: {missing}"
-            )
+            raise ValueError(f"У сертифікаті №{number} відсутні поля: {missing}")
 
     return data
 
@@ -75,7 +72,7 @@ def analyze_certificates(
     if days_warning < 0:
         raise ValueError("Кількість днів попередження не може бути від'ємною.")
 
-    today = current_date or datetime.now().date()
+    today = current_date or datetime.now(timezone.utc).astimezone().date()
     results = []
     issuer_counts = Counter()
 

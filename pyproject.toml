@@ -1,0 +1,35 @@
+[project]
+name = "cybersecurity-python-labs"
+version = "0.3.0"
+requires-python = ">=3.10"
+
+[tool.ruff]
+# Однакові результати незалежно від версії Python у віртуальному середовищі.
+target-version = "py310"
+line-length = 88
+extend-exclude = [".venv", "venv"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle: помилки
+    "W",    # pycodestyle: попередження
+    "F",    # pyflakes
+    "I",    # isort: порядок імпортів
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "DTZ",  # дата й час без часової зони
+    "LOG",  # журналювання
+    "TRY",  # обробка винятків
+    "RUF",  # правила Ruff
+]
+ignore = [
+    "TRY003",  # змістовні повідомлення у винятках потрібні за завданням
+    "TRY400",  # очікувані помилки CLI пишуться в журнал без трасування
+    "RUF001",  # українські літери в рядках — не помилка
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.format]
+quote-style = "double"

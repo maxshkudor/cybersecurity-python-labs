@@ -19,10 +19,11 @@ from labs.lab02.task2 import (
     save_json_report,
 )
 
-
 DEFAULT_DATA = Path("labs/lab02/data/data_v10/certificates.json")
 DEFAULT_REPORT = Path("labs/lab02/data/certificate_report.json")
 SESSION_TIMEOUT_SEC = 900
+
+LOGGER = logging.getLogger(__name__)
 
 
 def run_demo() -> None:
@@ -66,9 +67,8 @@ def run_demo() -> None:
 
     print("\nПеревірка завершення сесії за таймаутом:")
     if account.session is not None:
-        account.session.last_activity = (
-            datetime.now(timezone.utc)
-            - timedelta(seconds=SESSION_TIMEOUT_SEC + 1)
+        account.session.last_activity = datetime.now(timezone.utc) - timedelta(
+            seconds=SESSION_TIMEOUT_SEC + 1
         )
     print("Авторизований:", account.is_authenticated())
 
@@ -81,7 +81,7 @@ def run_demo() -> None:
 
 def run_analyze(args: argparse.Namespace) -> None:
     """Зчитує сертифікати, аналізує та зберігає звіт."""
-    logging.info("Зчитую дані сертифікатів з %s", args.certs_data)
+    LOGGER.info("Зчитую дані сертифікатів з %s", args.certs_data)
 
     certificates = load_certificates(args.certs_data)
     results, issuer_counts = analyze_certificates(
@@ -96,7 +96,7 @@ def run_analyze(args: argparse.Namespace) -> None:
     else:
         save_csv_report(results, args.output_report)
 
-    logging.info(
+    LOGGER.info(
         "Перевірено сертифікатів: %d. Звіт збережено: %s",
         len(results),
         args.output_report,
@@ -175,8 +175,8 @@ def main() -> int:
 
     try:
         run_analyze(args)
-    except (OSError, ValueError) as error:
-        logging.error("Не вдалося виконати аналіз: %s", error)
+    except (OSError, TypeError, ValueError) as error:
+        LOGGER.error("Не вдалося виконати аналіз: %s", error)
         return 2
 
     return 0

@@ -1,0 +1,74 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "cpu"
+    },
+    {
+      "id": 2,
+      "name": "memory"
+    },
+    {
+      "id": 3,
+      "name": "disk"
+    }
+  ],
+  "records": [
+    {
+      "code": "V10-01",
+      "title": "Вимірювання сервера 01",
+      "category_id": 1,
+      "value": 82.0,
+      "status": "new"
+    },
+    {
+      "code": "V10-02",
+      "title": "Вимірювання сервера 02",
+      "category_id": 2,
+      "value": 65.0,
+      "status": "in_progress"
+    },
+    {
+      "code": "V10-03",
+      "title": "Вимірювання сервера 03",
+      "category_id": 3,
+      "value": 40.0,
+      "status": "done"
+    },
+    {
+      "code": "V10-04",
+      "title": "Вимірювання сервера 04",
+      "category_id": 1,
+      "value": 91.0,
+      "status": "new"
+    },
+    {
+      "code": "V10-05",
+      "title": "Вимірювання сервера 05",
+      "category_id": 2,
+      "value": 78.0,
+      "status": "done"
+    },
+    {
+      "code": "V10-06",
+      "title": "Вимірювання сервера 06",
+      "category_id": 3,
+      "value": 55.0,
+      "status": "in_progress"
+    },
+    {
+      "code": "V10-07",
+      "title": "Вимірювання сервера 07",
+      "category_id": 1,
+      "value": 80.0,
+      "status": "done"
+    },
+    {
+      "code": "V10-08",
+      "title": "Вимірювання сервера 08",
+      "category_id": 2,
+      "value": 88.0,
+      "status": "new"
+    }
+  ]
+}
